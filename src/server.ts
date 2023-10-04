@@ -6,7 +6,7 @@ import morgan from "./logger/morgan";
 import cors from "./cors/cors";
 import connectToMongoDb from "./dataAccessLayer/mongoDb";
 import { handleServerError } from "./utils/handleErrors";
-// import { generateInitialUsers } from "./initialData/initialDataService";
+import initialData from "./initialData/initialDataService";
 
 app.use(morgan);
 app.use(cors);
@@ -24,6 +24,14 @@ app.listen(PORT, () => {
   connectToMongoDb()
     .then((message) => {
       console.log(chalk.magentaBright(message));
+      initialData()
+        .then(({ message }) => {
+          console.log(chalk.greenBright(message));
+        })
+        .catch((error) => {
+          if (error instanceof Error)
+            console.log(chalk.redBright(error.message));
+        });
     })
     .catch((error) =>
       console.log(chalk.redBright("Connect to mongoDB Error: ", error.message))

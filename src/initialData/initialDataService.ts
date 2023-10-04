@@ -1,35 +1,69 @@
-// import UserInterface from "../users/interfaces/UserInterface";
-// import { getUsers, register } from "../users/services/usersApiService";
-// import chalk from "chalk";
+import { createNewBanner } from "../banners/services/bannersApiService";
+import UserInterface from "../users/interfaces/UserInterface";
+import { getUsers, register } from "../users/services/usersApiService";
 
-// const data = {
-//   users: [
-//     { email: "regular@gmail.com", password: "Aa1234!", isAdmin: false },
-//     { email: "business@gmail.com", password: "Aa1234!", isAdmin: false },
-//     { email: "admin@gmail.com", password: "Aa1234!", isAdmin: true },
-//   ],
-// };
+const data = {
+  users: [
+    {
+      email: "regular@gmail.com",
+      password: "Aa1234!",
+      isAdmin: false,
+      username: "regular",
+    },
+    {
+      email: "admin@gmail.com",
+      password: "Aa1234!",
+      username: "admin",
+      isAdmin: true,
+    },
+  ],
+  banners: [
+    {
+      text: "first",
+      image: {
+        url: "https://cdn.pixabay.com/photo/2023/09/23/14/22/dahlia-8271071_1280.jpg",
+        alt: "פרח",
+      },
+    },
+    {
+      text: "second",
+      image: {
+        url: "https://cdn.pixabay.com/photo/2023/09/11/13/08/dog-8246868_1280.jpg",
+        alt: "dog",
+      },
+    },
+  ],
+};
 
-// export const generateInitialUsers = async () => {
-//   debugger;
-//   try {
-//     const usersInDB = await getUsers();
-//     if (Array.isArray(usersInDB) && usersInDB.length) return null;
+const createInitialUsers = async () => {
+  try {
+    data.users.forEach(async (user) => await register(user));
+  } catch (error) {
+    return Promise.reject(error);
+  }
+};
 
-//     const users: UserInterface[] = [];
+export const createInitialBanners = async () => {
+  try {
+    data.banners.forEach(async (banner) => {
+      banner.author = "651d2a5972d7cb77fbb7c716";
+      await createNewBanner(banner);
+    });
 
-//     for (const user of data.users) {
-//       try {
-//         const userInDB = await register(user);
-//         users.push(userInDB as UserInterface);
-//       } catch (error) {
-//         if (error instanceof Error) console.log(chalk.redBright(error.message));
-//       }
-//     }
+    return null;
+  } catch (error) {
+    return Promise.reject(error);
+  }
+};
 
-//     return users;
-//   } catch (error) {
-//     console.log(chalk.redBright(error));
-//     Promise.reject(error);
-//   }
-// };
+export const initialData = async () => {
+  try {
+    await createInitialUsers();
+    await createInitialBanners();
+    return { message: "created initial users & banners successfully" };
+  } catch (error) {
+    return Promise.reject(error);
+  }
+};
+
+export default initialData;

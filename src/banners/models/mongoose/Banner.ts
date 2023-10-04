@@ -22,7 +22,7 @@ const BannerSchema = new Schema({
   text: {
     type: String,
     required: true,
-    minLength: 6,
+    minLength: 2,
     trim: true,
     lowercase: true,
   },
