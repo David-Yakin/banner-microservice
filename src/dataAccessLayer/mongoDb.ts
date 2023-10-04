@@ -3,7 +3,7 @@ import { connect } from "mongoose";
 const connectToMongoDb = async () => {
   try {
     await connect(
-      "mongodb+srv://david:banner@banner-microservice.gzuztzl.mongodb.net/banners-microservice"
+      "mongodb+srv://david:banner@banner-microservice.gzuztzl.mongodb.net/"
     );
     return "Connect to mongoDB successfully!";
   } catch (error) {
