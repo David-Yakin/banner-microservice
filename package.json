@@ -8,7 +8,7 @@
     "dev": "nodemon .",
     "ts": "tsc -w",
     "test": "vitest",
-    "build": "tsc && node ."
+    "build": "npm i && tsc"
   },
   "author": "David Yakin",
   "license": "ISC",
